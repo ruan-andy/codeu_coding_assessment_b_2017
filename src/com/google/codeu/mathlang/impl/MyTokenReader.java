@@ -18,6 +18,8 @@ import java.io.IOException;
 
 import com.google.codeu.mathlang.core.tokens.Token;
 import com.google.codeu.mathlang.parsing.TokenReader;
+import com.google.codeu.mathlang.core.tokens.NameToken;
+
 
 // MY TOKEN READER
 //
@@ -27,9 +29,12 @@ import com.google.codeu.mathlang.parsing.TokenReader;
 // work with the test of the system.
 public final class MyTokenReader implements TokenReader {
 
+  private String source;
   public MyTokenReader(String source) {
     // Your token reader will only be given a string for input. The string will
     // contain the whole source (0 or more lines).
+    this.source = source;
+    System.out.println(source);
   }
 
   @Override
@@ -41,6 +46,30 @@ public final class MyTokenReader implements TokenReader {
     // If for any reason you detect an error in the input, you may throw an IOException
     // which will stop all execution.
 
+    // First Test;
+    if (source.length() == 0 || isEnd(source.charAt(0))) {
+      return null;
+    }
+    int i = 0;
+    String tokenString = "";
+    while (isLetter(source.charAt(i) ) ) {
+      tokenString += source.charAt(i);
+      i++;
+    }
+    source = source.substring(i, source.length() );
+    if (tokenString.length() > 0) {
+      return new NameToken(source);
+    }
     return null;
+  }
+
+  // Check if character is a letter
+  public boolean isLetter(char c) {
+    return Character.isLetter(c);
+  }
+
+  // Check if character is semi
+  public boolean isEnd(char c) {
+    return c == ';';
   }
 }
